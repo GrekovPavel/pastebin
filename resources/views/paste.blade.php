@@ -9,7 +9,37 @@
     <title>Pastebin</title>
 </head>
 <body>
-@dd($paste)
+
+<div class="container ">
+
+    <div class="col-6 mx-auto">
+        <form class="form-paste" action="/submit" method="post">
+            @csrf
+            <div class="form-title"><h2>Новая паста</h2></div>
+            <div class="form-group">
+                <label for="pasteTextarea"></label>
+                <textarea class="form-control" name="pasteTextarea" id="pasteTextarea" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Создать</button>
+        </form>
+    </div>
+
+
+    <div class="col-6 mx-auto">
+      <h2>Последние пасты:</h2>
+        @foreach($dataTable as $data)
+            <ul>
+                <li>
+                    <a href="#">{{ $data->content }}</a>
+                    <div class="">{{ $data->updated_at }}</div>
+                </li>
+            </ul>
+        @endforeach
+    </div>
+
+</div>
+
+
 
 </body>
 </html>
