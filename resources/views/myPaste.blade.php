@@ -11,17 +11,9 @@
 <body>
 
 <div class="container ">
-
     <div class="col-6 mx-auto">
-        <form class="form-paste" action="/submit" method="post">
-            @csrf
-            <div class="form-title"><h2>Новая паста</h2></div>
-            <div class="form-group">
-                <label for="pasteTextarea"></label>
-                <textarea class="form-control" name="pasteTextarea" id="pasteTextarea" rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Создать</button>
-        </form>
+        <h2>Моя паста:</h2>
+        <div>{{ $data }}</div>
     </div>
 
 

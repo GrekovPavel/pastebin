@@ -17,3 +17,4 @@ Route::get('/', 'PasteController@index');
 
 Route::post('/submit', 'PasteController@submit');
 
+Route::get('/{hash}', 'PasteController@paste')->name('form.paste');
