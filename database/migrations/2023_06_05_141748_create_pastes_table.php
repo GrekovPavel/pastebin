@@ -16,7 +16,7 @@ class CreatePastesTable extends Migration
         Schema::create('pastes', function (Blueprint $table) {
             $table->id();
             $table->text('content');
-            $table->time('life_time');
+            $table->time('life_time')->default(0);
             $table->string('visibility');
             $table->timestamps();
         });
