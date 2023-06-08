@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <title>Pastebin</title>
+    <title>Авторизация</title>
 </head>
 <body>
 
@@ -17,32 +17,30 @@
         <a href="{{ route('login') }}">Авторизация</a>
     </div>
     <div class="col-6 mx-auto">
-        <form class="form-paste" action="/submit" method="post">
+
+        <form class="form-paste" action="{{ route('login') }}" method="post">
             @csrf
-            <div class="form-title"><h2>Новая паста</h2></div>
+            <div class="form-title"><h2>Авторизация</h2></div>
             <div class="form-group">
-                <label for="pasteTextarea"></label>
-                <textarea class="form-control" name="pasteTextarea" id="pasteTextarea" rows="3"></textarea>
+                <label for="name">Логин</label>
+                <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="name" placeholder="Login">
+                @error('name')
+                    <p style="color: red"> {{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password"name="password" class="form-control" id="password" placeholder="Password">
+                @error('password')
+                <p style="color: red"> {{ $message }}</p>
+                @enderror
             </div>
             <button type="submit" class="btn btn-primary">Создать</button>
         </form>
     </div>
-
-
-    <div class="col-6 mx-auto">
-      <h2>Последние пасты:</h2>
-        @foreach($dataTable as $data)
-            <ul>
-                <li>
-                    <a href="{{ $data->link }}">{{ $data->content }}</a>
-                    <div class="">{{ $data->updated_at }}</div>
-                </li>
-            </ul>
-        @endforeach
-    </div>
-
-
 </div>
+
 
 
 

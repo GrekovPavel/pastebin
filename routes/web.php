@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\loginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'PasteController@index');
+Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
+
+Route::get('/login', [loginController::class, 'create'])->middleware('guest')->name('login');
+Route::post('/login', [loginController::class, 'store'])->middleware('guest');
+
+Route::post('/logout', [loginController::class, 'destroy'])->middleware('auth')->name('logout');
+
+
+Route::view('/dashboard', 'dashboard')->middleware('auth')->name('dashboard');
+
+Route::get('/', 'PasteController@index')->name('paste');
+
+Route::get('/{hash}', 'PasteController@paste')->name('form.paste');
+
+
 
 Route::post('/submit', 'PasteController@submit');
 
-Route::get('/{hash}', 'PasteController@paste')->name('form.paste');
