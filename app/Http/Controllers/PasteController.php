@@ -10,46 +10,53 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 
 
-
 class PasteController extends Controller
 {
 
-    public function index() {
-
+    public function index()
+    {
         $dataTable = Paste::all();
 
         return View('paste', compact('dataTable'));
     }
 
-    public function submit(Request $request) {
-
+    public function submit(Request $request)
+    {
         $expirationTime = $request->input('expiration_time');
+        $pasteTextarea = $request->input('pasteTextarea');
 
-        $request = $request->input('pasteTextarea');
-        $hash = Str::limit(hash('sha256', $request), 4, "") . Str::random(3);
+        $hash = Str::limit(hash('sha256', $pasteTextarea), 4, "") . Str::random(3);
         $link = $hash;
-        $paste = $this->create($request, $link, $expirationTime);
+
+        $paste = $this->create($pasteTextarea, $link, $expirationTime);
 
         if ($expirationTime) {
             $this->expirationTimePaste($expirationTime, $paste);
         }
 
         $url = route('form.paste', ['hash' => $hash]);
-        Cache::put($hash, $request);
+        Cache::put($hash, $pasteTextarea);
 
         return Redirect::to($url);
     }
 
     public function expirationTimePaste($expirationTime, $paste)
     {
-        if ($expirationTime === "10" || $expirationTime === "60" || $expirationTime === "180") {
-            DeletePaste::dispatch($paste)->delay(now()->addMinutes($expirationTime));
-        } elseif ($expirationTime === "1440") {
-            DeletePaste::dispatch($paste)->delay(now()->addDay());
-        } elseif ($expirationTime === "10080") {
-            DeletePaste::dispatch($paste)->delay(now()->addWeek());
-        } elseif ($expirationTime === "43800") {
-            DeletePaste::dispatch($paste)->delay(now()->addMonth());
+        switch ($expirationTime) {
+            case "10" OR
+                 "60" OR
+                 "180":
+                DeletePaste::dispatch($paste)->delay(now()->addMinutes($expirationTime));
+            break;
+            case "1440":
+                DeletePaste::dispatch($paste)->delay(now()->addDay());
+                break;
+            case "10080":
+                DeletePaste::dispatch($paste)->delay(now()->addWeek());
+                break;
+            case "43800":
+                DeletePaste::dispatch($paste)->delay(now()->addMonth());
+                break;
         }
     }
 
@@ -65,13 +72,13 @@ class PasteController extends Controller
         return abort(404);
     }
 
-    public function create($request, $link, $expirationTime) {
-
-       return Paste::create([
-            "content" => $request,
+    public function create($pasteTextarea, $link, $expirationTime)
+    {
+        return Paste::create([
+            "content"         => $pasteTextarea,
             'expiration_time' => $expirationTime,
-            "link" => $link,
-            "visibility" => "public"
+            "link"            => $link,
+            "visibility"      => "public"
         ]);
     }
 }

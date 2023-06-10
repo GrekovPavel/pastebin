@@ -23,14 +23,11 @@ Route::post('/login', [loginController::class, 'store'])->middleware('guest');
 
 Route::post('/logout', [loginController::class, 'destroy'])->middleware('auth')->name('logout');
 
-
 Route::view('/dashboard', 'dashboard')->middleware('auth')->name('dashboard');
 
 Route::get('/', 'PasteController@index')->name('paste');
 
 Route::get('/{hash}', 'PasteController@paste')->name('form.paste');
-
-
 
 Route::post('/submit', 'PasteController@submit');
 
