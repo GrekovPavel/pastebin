@@ -24,6 +24,18 @@
                 <label for="pasteTextarea"></label>
                 <textarea class="form-control" name="pasteTextarea" id="pasteTextarea" rows="3"></textarea>
             </div>
+            <div class="form-group">
+                <label for="expiration_time">Срок действия пасты</label>
+                <select class="form-control" id="expiration_time" name="expiration_time">
+                    <option value="">Без ограничений</option>
+                    <option value="10">10 Минут</option>
+                    <option value="60">1 час</option>
+                    <option value="180">3 часа</option>
+                    <option value="1440">1 день</option>
+                    <option value="10080">1 неделя</option>
+                    <option value="43800">1 месяц</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Создать</button>
         </form>
     </div>

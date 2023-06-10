@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Paste;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Jobs\DeletePaste;
+
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,6 +31,8 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paste::deleted(function (Paste $paste) {
+            dispatch(new DeletePaste($paste));
+        });
     }
 }
