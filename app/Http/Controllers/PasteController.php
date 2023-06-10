@@ -64,8 +64,19 @@ class PasteController extends Controller
     {
         $data = Cache::get($hash);
         $dataTable = Paste::all();
+        $isCacheLink = false;
 
-        if ($data) {
+        $links = [];
+        foreach ($dataTable as $item) {
+
+            $links[] = $item->link;
+        }
+
+        if (\end($links) === $hash) {
+            $isCacheLink = true;
+        }
+
+        if ($isCacheLink) {
             return View('myPaste', compact('data', 'dataTable'));
         }
 
