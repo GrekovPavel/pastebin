@@ -37,6 +37,7 @@
                 @enderror
             </div>
             <button type="submit" class="btn btn-primary">Создать</button>
+            <a href="{{ route('vk-auth') }}">Войти через VK</a>
         </form>
     </div>
 </div>

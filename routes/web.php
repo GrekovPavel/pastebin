@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\loginController;
@@ -24,6 +25,9 @@ Route::post('/login', [loginController::class, 'store'])->middleware('guest');
 Route::post('/logout', [loginController::class, 'destroy'])->middleware('auth')->name('logout');
 
 Route::view('/dashboard', 'dashboard')->middleware('auth')->name('dashboard');
+
+Route::get('/vk/auth', [SocialController::class, 'index'])->middleware('guest')->name('vk-auth');
+Route::get('/vk/auth/callback', [SocialController::class, 'callback'])->middleware('guest');
 
 Route::get('/', 'PasteController@index')->name('paste');
 
