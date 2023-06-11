@@ -18,7 +18,8 @@ class CreatePastesTable extends Migration
             $table->text('content');
             $table->integer('expiration_time')->nullable()->default(null);
             $table->string('link');
-            $table->string('visibility');
+            $table->string('access_paste');
+            $table->integer('user_id')->nullable()->default(null);
             $table->timestamps();
         });
     }

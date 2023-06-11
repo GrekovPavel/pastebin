@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Jobs\DeletePaste;
 use App\Models\Paste;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 
@@ -24,11 +26,17 @@ class PasteController extends Controller
     {
         $expirationTime = $request->input('expiration_time');
         $pasteTextarea = $request->input('pasteTextarea');
+        $access_paste = $request->input('access_paste');
+        $user_id = null;
+
+        if (Auth::check()) {
+            $user_id = Auth::id();
+        }
 
         $hash = Str::limit(hash('sha256', $pasteTextarea), 4, "") . Str::random(3);
         $link = $hash;
 
-        $paste = $this->create($pasteTextarea, $link, $expirationTime);
+        $paste = $this->create($pasteTextarea, $link, $expirationTime, $access_paste, $user_id);
 
         if ($expirationTime) {
             $this->expirationTimePaste($expirationTime, $paste);
@@ -64,15 +72,12 @@ class PasteController extends Controller
     {
         $data = Cache::get($hash);
         $dataTable = Paste::all();
+
         $isCacheLink = false;
 
-        $links = [];
-        foreach ($dataTable as $item) {
+        $paste = Paste::where('link', $hash)->first();
 
-            $links[] = $item->link;
-        }
-
-        if (\end($links) === $hash) {
+        if ($paste->link === $hash) {
             $isCacheLink = true;
         }
 
@@ -83,13 +88,14 @@ class PasteController extends Controller
         return abort(404);
     }
 
-    public function create($pasteTextarea, $link, $expirationTime)
+    public function create($pasteTextarea, $link, $expirationTime, $access_paste, $user_id)
     {
         return Paste::create([
             "content"         => $pasteTextarea,
             'expiration_time' => $expirationTime,
             "link"            => $link,
-            "visibility"      => "public"
+            "access_paste"    => $access_paste,
+            "user_id"         => $user_id
         ]);
     }
 }

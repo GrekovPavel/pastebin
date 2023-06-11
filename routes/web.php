@@ -31,7 +31,8 @@ Route::get('/vk/auth/callback', [SocialController::class, 'callback'])->middlewa
 
 Route::get('/', 'PasteController@index')->name('paste');
 
-Route::get('/{hash}', 'PasteController@paste')->name('form.paste');
+Route::get('/{hash}', 'PasteController@paste')
+    ->middleware('permission:hash')
+    ->name('form.paste');
 
 Route::post('/submit', 'PasteController@submit');
-

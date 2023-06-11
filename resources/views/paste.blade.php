@@ -36,6 +36,16 @@
                     <option value="43800">1 месяц</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="access_paste">Ограничение доступа пасты</label>
+                <select class="form-control" id="access_paste" name="access_paste">
+                    <option value="public">Доступна всем</option>
+                    <option value="unlisted">Доступна только по ссылке</option>
+                    @if(Auth::check())
+                        <option value="private">Доступна только мне</option>
+                    @endif
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary">Создать</button>
         </form>
     </div>
