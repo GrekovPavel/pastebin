@@ -30,9 +30,14 @@ class PermissionMiddleware
             $userId = null;
         }
 
-        if ($paste->access_paste === 'private' and $paste->user_id !== $userId) {
-            abort(403, 'У вас нет прав для доступа к этой странице');
+        if ($paste) {
+            if ($paste->access_paste === 'private' and $paste->user_id !== $userId) {
+                abort(403, 'У вас нет прав для доступа к этой странице');
+            }
         }
+
+
+
 
         return $next($request);
     }

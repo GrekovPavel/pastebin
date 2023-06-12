@@ -88,8 +88,10 @@ class PasteController extends Controller
 
         $paste = Paste::where('link', $hash)->first();
 
-        if ($paste->link === $hash) {
-            $isCacheLink = true;
+        if ($paste) {
+            if ($paste->link === $hash) {
+                $isCacheLink = true;
+            }
         }
 
         if ($isCacheLink) {
