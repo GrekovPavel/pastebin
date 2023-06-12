@@ -22,11 +22,11 @@ class ReportController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        $report = new Report;
-        $report->paste_id = $request->paste_id;
-        $report->reason = $request->reason;
+        $report = new Report();
+        $report->paste_id = $request->input('paste_id');
+        $report->reason = $request->input('reason');
         $report->save();
 
         return back();

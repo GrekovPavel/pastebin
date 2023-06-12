@@ -75,11 +75,11 @@ class PasteController extends Controller
      *
      * Обработчик времени жизни "пасты"
      *
-     * @param $expirationTime
-     * @param $paste
+     * @param int $expirationTime
+     * @param object $paste
      * @return void
      */
-    public function expirationTimePaste($expirationTime, $paste)
+    public function expirationTimePaste(int $expirationTime, object $paste)
     {
         switch ($expirationTime) {
             case "10" or
@@ -103,10 +103,10 @@ class PasteController extends Controller
      *
      * Собирает хешированную ссылку и рендерит шаблон с конкретной "пасто"
      *
-     * @param $hash
+     * @param string $hash
      * @return Application|Factory|View|never
      */
-    public function paste($hash)
+    public function paste(string $hash)
     {
         $data = Cache::get($hash);
         $dataTable = Paste::orderBy('created_at', 'desc')->where('access_paste', 'public')->take(10)->get();
@@ -138,14 +138,14 @@ class PasteController extends Controller
      *
      * Создает "пасту"
      *
-     * @param $pasteTextarea
-     * @param $link
-     * @param $expirationTime
-     * @param $access_paste
-     * @param $user_id
+     * @param string $pasteTextarea
+     * @param string $link
+     * @param int $expirationTime
+     * @param string $access_paste
+     * @param int $user_id
      * @return mixed
      */
-    public function create($pasteTextarea, $link, $expirationTime, $access_paste, $user_id)
+    public function create(string $pasteTextarea, string $link, int $expirationTime, string $access_paste, int $user_id)
     {
         return Paste::create([
             "content" => $pasteTextarea,

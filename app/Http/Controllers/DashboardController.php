@@ -28,7 +28,10 @@ class DashboardController extends Controller
 
         if (Auth::check()) {
             $myPastes = Paste::where('user_id', Auth::id())->paginate(5);
+        } else {
+            $myPastes = null;
         }
+
         return View('dashboard', compact('myPastes'));
     }
 }
