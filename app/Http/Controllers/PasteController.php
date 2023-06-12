@@ -145,7 +145,7 @@ class PasteController extends Controller
      * @param int $user_id
      * @return mixed
      */
-    public function create(string $pasteTextarea, string $link, int $expirationTime, string $access_paste, int $user_id)
+    public function create(string $pasteTextarea, string $link, int $expirationTime, string $access_paste, int $user_id = null)
     {
         return Paste::create([
             "content" => $pasteTextarea,
