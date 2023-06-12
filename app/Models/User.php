@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Orchid\Platform\Models\User as Authenticatable;
+use Orchid\Screen\AsSource;
 
 class User extends Authenticatable
 {
+
+    use AsSource;
+
     /**
      * The attributes that are mass assignable.
      *

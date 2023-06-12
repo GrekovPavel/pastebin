@@ -21,6 +21,7 @@ class CreatePastesTable extends Migration
             $table->string('access_paste');
             $table->integer('user_id')->nullable()->default(null);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

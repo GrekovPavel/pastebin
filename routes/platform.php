@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Orchid\Screens\ClientScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Examples\ExampleChartsScreen;
 use App\Orchid\Screens\Examples\ExampleFieldsAdvancedScreen;
@@ -10,6 +11,8 @@ use App\Orchid\Screens\Examples\ExampleLayoutsScreen;
 use App\Orchid\Screens\Examples\ExampleScreen;
 use App\Orchid\Screens\Examples\ExampleTextEditorsScreen;
 use App\Orchid\Screens\PlatformScreen;
+use App\Orchid\Screens\PublicationScreen;
+use App\Orchid\Screens\ReportScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -32,6 +35,16 @@ use Tabuna\Breadcrumbs\Trail;
 // Main
 Route::screen('/main', PlatformScreen::class)
     ->name('platform.main');
+
+Route::screen('client', ClientScreen::class)
+    ->name('platform.client');
+
+Route::screen('publication', PublicationScreen::class)
+    ->name('platform.publication');
+
+Route::screen('report', ReportScreen::class)
+    ->name('platform.report');
+
 
 // Platform > Profile
 Route::screen('profile', UserProfileScreen::class)

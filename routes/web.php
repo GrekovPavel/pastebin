@@ -24,12 +24,12 @@ Route::post('/login', [loginController::class, 'store'])->middleware('guest');
 
 Route::post('/logout', [loginController::class, 'destroy'])->middleware('auth')->name('logout');
 
-Route::get('/dashboard', 'DashboardController@index')->middleware('auth')->name('dashboard');
+Route::get('/dashboard', 'DashboardController@index')->middleware(['auth', 'banned'])->name('dashboard');
 
 Route::get('/vk/auth', [SocialController::class, 'index'])->middleware('guest')->name('vk-auth');
 Route::get('/vk/auth/callback', [SocialController::class, 'callback'])->middleware('guest');
 
-Route::get('/', 'PasteController@index')->name('paste');
+Route::get('/', 'PasteController@index')->middleware(['banned'])->name('paste');
 
 Route::get('/{hash}', 'PasteController@paste')
     ->middleware('permission:hash')
