@@ -12,22 +12,54 @@
 
 <div class="container ">
     <div class="col-6 mx-auto">
-        <h2>Моя паста:</h2>
+        <a href="/" ><h2>Моя паста:</h2></a>
         <div>{{ $data }}</div>
     </div>
-
+    @if($myPastes)
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h2>Последние public пасты:</h2>
+                    @foreach($dataTable as $data)
+                        @if($data->access_paste === "public")
+                            <ul>
+                                <li>
+                                    <a href="{{ $data->link }}">{{ mb_substr($data->content, 0, 15) . "..." }}  </a>
+                                    <div class="">{{ $data->updated_at }}</div>
+                                </li>
+                            </ul>
+                        @endif
+                    @endforeach
+                </div>
+                <div class="col-6">
+                    <h2>Мои пасты:</h2>
+                    @foreach($myPastes as $data)
+                            <ul>
+                                <li>
+                                    <a href="{{ $data->link }}">{{ mb_substr($data->content, 0, 15) . "..." }}  </a>
+                                    <div class="">{{ $data->updated_at }}</div>
+                                </li>
+                            </ul>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @else
 
     <div class="col-6 mx-auto">
-      <h2>Последние пасты:</h2>
+      <h2>Последние public пасты:</h2>
         @foreach($dataTable as $data)
-            <ul>
-                <li>
-                    <a href="{{ $data->link }}">{{ $data->content }}</a>
-                    <div class="">{{ $data->updated_at }}</div>
-                </li>
-            </ul>
+            @if($data->access_paste === "public")
+                <ul>
+                    <li>
+                        <a href="{{ $data->link }}">{{ mb_substr($data->content, 0, 15) . "..." }}  </a>
+                        <div class="">{{ $data->updated_at }}</div>
+                    </li>
+                </ul>
+            @endif
         @endforeach
     </div>
+    @endif
 
 </div>
 

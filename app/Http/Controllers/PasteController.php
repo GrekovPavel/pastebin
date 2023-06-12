@@ -17,9 +17,14 @@ class PasteController extends Controller
 
     public function index()
     {
-        $dataTable = Paste::all();
+        $dataTable = Paste::orderBy('created_at', 'desc')->where('access_paste', 'public')->take(10)->get();
 
-        return View('paste', compact('dataTable'));
+        $myPastes = [];
+
+        if (Auth::check()) {
+            $myPastes = Paste::orderBy('created_at', 'desc')->where('user_id', Auth::id())->take(10)->get();
+        }
+        return View('paste', compact('dataTable', 'myPastes'));
     }
 
     public function submit(Request $request)
@@ -71,7 +76,13 @@ class PasteController extends Controller
     public function paste($hash)
     {
         $data = Cache::get($hash);
-        $dataTable = Paste::all();
+        $dataTable = Paste::orderBy('created_at', 'desc')->where('access_paste', 'public')->take(10)->get();
+
+        $myPastes = [];
+
+        if (Auth::check()) {
+            $myPastes = Paste::orderBy('created_at', 'desc')->where('user_id', Auth::id())->take(10)->get();
+        }
 
         $isCacheLink = false;
 
@@ -82,7 +93,7 @@ class PasteController extends Controller
         }
 
         if ($isCacheLink) {
-            return View('myPaste', compact('data', 'dataTable'));
+            return View('myPaste', compact('data', 'dataTable', 'myPastes'));
         }
 
         return abort(404);
