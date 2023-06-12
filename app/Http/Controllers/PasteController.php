@@ -101,7 +101,7 @@ class PasteController extends Controller
 
     /**
      *
-     * Собирает хешированную ссылку и рендерит шаблон с конкретной "пасто"
+     * Собирает хешированную ссылку и рендерит шаблон с конкретной "пасту"
      *
      * @param string $hash
      * @return Application|Factory|View|never
@@ -140,12 +140,12 @@ class PasteController extends Controller
      *
      * @param string $pasteTextarea
      * @param string $link
-     * @param int $expirationTime
+     * @param int|null $expirationTime
      * @param string $access_paste
-     * @param int $user_id
+     * @param int|null $user_id
      * @return mixed
      */
-    public function create(string $pasteTextarea, string $link, int $expirationTime, string $access_paste, int $user_id = null)
+    public function create(string $pasteTextarea, string $link, int $expirationTime = null, string $access_paste, int $user_id = null)
     {
         return Paste::create([
             "content" => $pasteTextarea,
