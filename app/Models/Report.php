@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Paste extends Model
+class Report extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function reports()
+    public function paste()
     {
-        return $this->hasMany('App\Report');
+        return $this->belongsTo('App\Paste');
     }
 }

@@ -5,7 +5,11 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <title>Pastebin</title>
 </head>
 <body>
@@ -62,6 +66,16 @@
                                 <li>
                                     <a href="{{ $data->link }}">{{ mb_substr($data->content, 0, 15) . "..." }}  </a>
                                     <div class="">{{ $data->updated_at }}</div>
+                                    <p>Пожаловаться</p>
+                                    <form id="report-form" method="post">
+                                        @csrf
+                                        <input type="hidden" name="paste_id" value="{{ $data->id }}">
+                                        <div class="form-group">
+                                            <label for="reason">Причина:</label>
+                                            <textarea class="form-control" name="reason"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Отправить жалобу</button>
+                                    </form>
                                 </li>
                             </ul>
                         @endif
@@ -90,6 +104,16 @@
                         <li>
                             <a href="{{ $data->link }}">{{ mb_substr($data->content, 0, 15) . "..." }}  </a>
                             <div class="">{{ $data->updated_at }}</div>
+                            <p>Пожаловаться</p>
+                            <form id="report-form" method="post">
+                                @csrf
+                                <input type="hidden" name="paste_id" value="{{ $data->id }}">
+                                <div class="form-group">
+                                    <label for="reason">Причина:</label>
+                                    <textarea class="form-control" name="reason"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Отправить жалобу</button>
+                            </form>
                         </li>
                     </ul>
                 @endif

@@ -36,3 +36,5 @@ Route::get('/{hash}', 'PasteController@paste')
     ->name('form.paste');
 
 Route::post('/submit', 'PasteController@submit');
+
+Route::post('/report-paste', 'ReportController@store');
