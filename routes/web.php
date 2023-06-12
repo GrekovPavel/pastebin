@@ -24,7 +24,7 @@ Route::post('/login', [loginController::class, 'store'])->middleware('guest');
 
 Route::post('/logout', [loginController::class, 'destroy'])->middleware('auth')->name('logout');
 
-Route::view('/dashboard', 'dashboard')->middleware('auth')->name('dashboard');
+Route::get('/dashboard', 'DashboardController@index')->middleware('auth')->name('dashboard');
 
 Route::get('/vk/auth', [SocialController::class, 'index'])->middleware('guest')->name('vk-auth');
 Route::get('/vk/auth/callback', [SocialController::class, 'callback'])->middleware('guest');
