@@ -33,7 +33,6 @@ class DeletePaste implements ShouldQueue
      */
     public function handle()
     {
-
         $this->paste->delete();
     }
 }

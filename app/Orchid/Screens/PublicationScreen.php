@@ -76,6 +76,10 @@ class PublicationScreen extends Screen
         ];
     }
 
+    /**
+     * @param Paste $paste
+     * @return Paste
+     */
     public function asyncGetPaste(Paste $paste): array
     {
         return [
@@ -83,6 +87,13 @@ class PublicationScreen extends Screen
         ];
     }
 
+    /**
+     *
+     * Удаляет пасту.
+     *
+     * @param Request $request
+     * @return void
+     */
     public function delete(Request $request)
     {
         Paste::find($request->input('paste.id'))->delete();

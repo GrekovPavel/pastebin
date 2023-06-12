@@ -34,14 +34,14 @@ class PlatformProvider extends OrchidServiceProvider
                 ->title('Пользователи'),
 
             Menu::make('Пасты')
-                    ->icon('paste')
-                    ->route('platform.publication')
-                    ->title('Пасты'),
+                ->icon('paste')
+                ->route('platform.publication')
+                ->title('Пасты'),
 
             Menu::make('Жалобы')
-                    ->icon('paste')
-                    ->route('platform.report')
-                    ->title('Жалобы'),
+                ->icon('paste')
+                ->route('platform.report')
+                ->title('Жалобы'),
         ];
     }
 

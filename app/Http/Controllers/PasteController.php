@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Jobs\DeletePaste;
 use App\Models\Paste;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
@@ -15,6 +19,12 @@ use Illuminate\Support\Str;
 class PasteController extends Controller
 {
 
+    /**
+     *
+     * Рендерит шаблон страницы с "пастами"
+     *
+     * @return Application|Factory|View
+     */
     public function index()
     {
         $dataTable = Paste::orderBy('created_at', 'desc')->where('access_paste', 'public')->take(10)->get();
@@ -24,9 +34,17 @@ class PasteController extends Controller
         if (Auth::check()) {
             $myPastes = Paste::orderBy('created_at', 'desc')->where('user_id', Auth::id())->take(10)->get();
         }
+
         return View('paste', compact('dataTable', 'myPastes'));
     }
 
+    /**
+     *
+     * Обработчик формы при создании "пасты"
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
     public function submit(Request $request)
     {
         $expirationTime = $request->input('expiration_time');
@@ -53,14 +71,22 @@ class PasteController extends Controller
         return Redirect::to($url);
     }
 
+    /**
+     *
+     * Обработчик времени жизни "пасты"
+     *
+     * @param $expirationTime
+     * @param $paste
+     * @return void
+     */
     public function expirationTimePaste($expirationTime, $paste)
     {
         switch ($expirationTime) {
-            case "10" OR
-                 "60" OR
-                 "180":
+            case "10" or
+                "60" or
+                "180":
                 DeletePaste::dispatch($paste)->delay(now()->addMinutes($expirationTime));
-            break;
+                break;
             case "1440":
                 DeletePaste::dispatch($paste)->delay(now()->addDay());
                 break;
@@ -73,6 +99,13 @@ class PasteController extends Controller
         }
     }
 
+    /**
+     *
+     * Собирает хешированную ссылку и рендерит шаблон с конкретной "пасто"
+     *
+     * @param $hash
+     * @return Application|Factory|View|never
+     */
     public function paste($hash)
     {
         $data = Cache::get($hash);
@@ -101,14 +134,25 @@ class PasteController extends Controller
         return abort(404);
     }
 
+    /**
+     *
+     * Создает "пасту"
+     *
+     * @param $pasteTextarea
+     * @param $link
+     * @param $expirationTime
+     * @param $access_paste
+     * @param $user_id
+     * @return mixed
+     */
     public function create($pasteTextarea, $link, $expirationTime, $access_paste, $user_id)
     {
         return Paste::create([
-            "content"         => $pasteTextarea,
+            "content" => $pasteTextarea,
             'expiration_time' => $expirationTime,
-            "link"            => $link,
-            "access_paste"    => $access_paste,
-            "user_id"         => $user_id
+            "link" => $link,
+            "access_paste" => $access_paste,
+            "user_id" => $user_id
         ]);
     }
 }

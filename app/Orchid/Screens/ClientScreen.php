@@ -91,6 +91,10 @@ class ClientScreen extends Screen
         ];
     }
 
+    /**
+     * @param User $user
+     * @return User
+     */
     public function asyncGetClient(User $user): array
     {
         return [
@@ -98,6 +102,13 @@ class ClientScreen extends Screen
         ];
     }
 
+    /**
+     *
+     * Банит пользователя
+     *
+     * @param Request $request
+     * @return void
+     */
     public function ban(Request $request)
     {
         DB::table('users')
@@ -107,6 +118,13 @@ class ClientScreen extends Screen
         Toast::info('Пользователь забанен');
     }
 
+    /**
+     *
+     * Разбанивает пользователя
+     *
+     * @param Request $request
+     * @return void
+     */
     public function unBan(Request $request)
     {
         DB::table('users')
