@@ -47,10 +47,10 @@ class PasteController extends Controller
      */
     public function submit(Request $request)
     {
-        $expirationTime = $request->input('expiration_time');
+        $expirationTime = $request->input('expiration_time') ?? 0;
         $pasteTextarea = $request->input('pasteTextarea');
         $access_paste = $request->input('access_paste');
-        $user_id = null;
+        $user_id = 0;
 
         if (Auth::check()) {
             $user_id = Auth::id();
@@ -145,7 +145,7 @@ class PasteController extends Controller
      * @param int|null $user_id
      * @return mixed
      */
-    public function create(string $pasteTextarea, string $link, int $expirationTime = null, string $access_paste, int $user_id = null)
+    public function create(string $pasteTextarea, string $link, int $expirationTime, string $access_paste, int $user_id = 0)
     {
         return Paste::create([
             "content" => $pasteTextarea,
