@@ -36,7 +36,7 @@
                 <p style="color: red"> {{ $message }}</p>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Создать</button>
+            <button type="submit" class="btn btn-primary">Войти</button>
             <a href="{{ route('vk-auth') }}">Войти через VK</a>
         </form>
     </div>
