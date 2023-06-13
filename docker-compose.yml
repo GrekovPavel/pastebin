@@ -1,0 +1,62 @@
+version: "3.7"
+services:
+    pastebin-app:
+        build:
+            args:
+                user: pastebin
+                uid: 1007
+                APP_ENV: ${APP_ENV}
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - pastebin
+
+
+    pastebin-mysql:
+        image: mysql:5.7.22
+        restart: unless-stopped
+        tty: true
+        ports:
+            - ${DB_PORT}:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - dbdata:/var/lib/mysql
+        networks:
+            - pastebin
+
+    adminer:
+        image: adminer
+        ports:
+            - 8307:8080
+        networks:
+            - pastebin
+
+    pastebin-nginx:
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - 8224:80
+        volumes:
+            - ./:/var/www
+            - ./docker-compose/nginx:/etc/nginx/conf.d/
+        networks:
+            - pastebin
+
+networks:
+    pastebin:
+        driver: bridge
+        external: true
+
+volumes:
+    dbdata:
+        driver: local
